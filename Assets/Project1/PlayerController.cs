@@ -1,11 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 public class PlayerController : MonoBehaviour
 {
     public float speed = 20f;
     public GameObject player;
+    public GameObject scissor;
+    public float forceAmount = 1000f;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,5 +40,23 @@ public class PlayerController : MonoBehaviour
             transform.Translate(Vector3.right * Time.deltaTime * speed);
         }
         
+    }
+    //on collision with object tagged "paper" destroy object and spawn scissor object
+    //and add force in a random direction to the forceAmount to scissor object
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //print collided
+        Debug.Log("Collided");
+        if (collision.gameObject.tag == "paper")
+        {
+            Debug.Log("Collided");
+
+            Destroy(collision.gameObject);
+            GameObject scissorClone = Instantiate(scissor, transform.position, Quaternion.identity);
+
+            scissorClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f)) * forceAmount);
+            Destroy(collision.gameObject);
+
+        }
     }
 }
