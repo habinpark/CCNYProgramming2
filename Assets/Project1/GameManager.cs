@@ -33,13 +33,7 @@ public class GameManager : MonoBehaviour
         
         timer += Time.deltaTime;
         //spawn enemy in random location between the 4 corners
-        if (timer >= 5f)
-        {
-            float x = Random.Range(topLeft.transform.position.x, topRight.transform.position.x);
-            float y = Random.Range(bottomLeft.transform.position.y, topLeft.transform.position.y);
-            Instantiate(enemy, new Vector3(x, y, 0), Quaternion.identity);
-            timer = 0.0f;
-        }
+
      
        
 

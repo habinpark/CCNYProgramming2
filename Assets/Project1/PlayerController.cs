@@ -9,7 +9,8 @@ public class PlayerController : MonoBehaviour
     public float speed = 20f;
     public GameObject player;
     public GameObject scissor;
-    public float forceAmount = 1000f;
+    public GameObject paper;    
+    public float forceAmount = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +20,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+
         //w moves player forward
         if (Input.GetKey(KeyCode.W))
         {
@@ -39,6 +42,17 @@ public class PlayerController : MonoBehaviour
         {
             transform.Translate(Vector3.right * Time.deltaTime * speed);
         }
+
+        //set vector3 mousePosition to mouse position
+        Vector3 mousePosition = Input.mousePosition;
+        //remap the mouse position to the camera view
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+        //on mouse click instantiate paper object at mouse position
+        if (Input.GetMouseButtonDown(0))
+        {
+            GameObject paperClone = Instantiate(paper, mousePosition, Quaternion.identity);
+        }
         
     }
     //on collision with object tagged "paper" destroy object and spawn scissor object
@@ -46,16 +60,18 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //print collided
-        Debug.Log("Collided");
         if (collision.gameObject.tag == "paper")
         {
-            Debug.Log("Collided");
+            //Debug.Log("Collided");
 
             Destroy(collision.gameObject);
             GameObject scissorClone = Instantiate(scissor, transform.position, Quaternion.identity);
 
             scissorClone.GetComponent<Rigidbody2D>().AddForce(new Vector2(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f)) * forceAmount);
             Destroy(collision.gameObject);
+            //stop player velocity
+            player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+
 
         }
     }

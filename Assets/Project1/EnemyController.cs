@@ -7,8 +7,9 @@ public class EnemyController : MonoBehaviour
     public string enemyType;
     public GameObject myType;
     public float speed = 0.05f;
+    public string hunterType;
     GameObject closestEnemy;
-    public float forceAmount = 300f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,16 +20,47 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         closestEnemy = FindClosestEnemy();
-        //moves enemy towards player
-        if((transform.position = Vector3.MoveTowards(transform.position, closestEnemy.transform.position, speed)) != null)
+        if (closestEnemy != null)
         {
             transform.position = Vector3.MoveTowards(transform.position, closestEnemy.transform.position, speed);
+        }
+        else if (closestEnemy == null)
+        {
+            //find the closest hunter and move opposite direction to it
+            GameObject closestHunter = FindClosestHunter();
+            if (closestHunter != null)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, closestHunter.transform.position, -speed);
+            }
+            else
+            {
+                //nothing to do
+            }
         }
     }
     public GameObject FindClosestEnemy()
     {
         GameObject[] gos;
         gos = GameObject.FindGameObjectsWithTag(enemyType);
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in gos)
+        {
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
+        return closest;
+    }
+    public GameObject FindClosestHunter()
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag(hunterType);
         GameObject closest = null;
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
