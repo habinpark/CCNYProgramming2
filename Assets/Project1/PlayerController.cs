@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         //on mouse click instantiate paper object at mouse position
         if (Input.GetMouseButtonDown(0))
         {
-            GameObject paperClone = Instantiate(paper, mousePosition, Quaternion.identity);
+            //GameObject paperClone = Instantiate(paper, mousePosition, Quaternion.identity);
         }
         
     }
