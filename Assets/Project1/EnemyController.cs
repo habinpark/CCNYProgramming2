@@ -9,11 +9,11 @@ public class EnemyController : MonoBehaviour
     public float speed = 0.05f;
     public string hunterType;
     GameObject closestEnemy;
+    GameObject closestHunter;
     GameObject lastCollided;
     public float forceAmount = 1f;
     float distToClosestEnemy;
     float distToClosestHunter;
-
 
     // Start is called before the first frame update
     void Start()
@@ -28,14 +28,17 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //slowly increase speed over time using deltatime
+        //speed += Time.deltaTime / 1000;
         closestEnemy = FindClosestEnemy();
-
-        if (closestEnemy != null && distToClosestHunter != null)
+        closestHunter = FindClosestHunter();
+        
+        if (closestEnemy != null && closestHunter != null)
         {
             //find the closest enemy and set distToClosestEnemy to the distance to that enemy
             distToClosestEnemy = Vector3.Distance(transform.position, closestEnemy.transform.position);
             //find the closest hunter and set distToClosestHunter to the distance to that hunter
-            distToClosestHunter = Vector3.Distance(transform.position, FindClosestHunter().transform.position);
+            distToClosestHunter = Vector3.Distance(transform.position, closestHunter.transform.position);
 
             //if the distance to the closest enemy is less than the distance to the closest hunter then move towards the closest enemy
             if (distToClosestEnemy < distToClosestHunter)
@@ -45,24 +48,41 @@ public class EnemyController : MonoBehaviour
             else
             {
                 //move away from the closest hunter
-                transform.position = Vector3.MoveTowards(transform.position, FindClosestHunter().transform.position, -speed);
-            }
-
-            //transform.position = Vector3.MoveTowards(transform.position, closestEnemy.transform.position, speed);
-        }
-        else if (closestEnemy == null)
-        {
-            //find the closest hunter and move opposite direction to it
-            GameObject closestHunter = FindClosestHunter();
-            if (closestHunter != null)
-            {
                 transform.position = Vector3.MoveTowards(transform.position, closestHunter.transform.position, -speed);
             }
-            else
-            {
-                //nothing to do
-            }
         }
+        else if(closestHunter != null)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, closestHunter.transform.position, -speed);
+        }
+        else if(closestEnemy != null)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, closestEnemy.transform.position, speed);
+        }
+        else
+        {
+
+        }
+
+
+        //find the closest enemy and set distToClosestEnemy to the distance to that enemy
+        //distToClosestEnemy = Vector3.Distance(transform.position, closestEnemy.transform.position);
+        //find the closest hunter and set distToClosestHunter to the distance to that hunter
+        //distToClosestHunter = Vector3.Distance(transform.position, closestHunter.transform.position);
+
+        //if the distance to the closest enemy is less than the distance to the closest hunter then move towards the closest enemy
+        //if (distToClosestEnemy < distToClosestHunter)
+        //{
+        //    transform.position = Vector3.MoveTowards(transform.position, closestEnemy.transform.position, speed);
+        //}
+        //else
+        //{
+            //move away from the closest hunter
+       //     transform.position = Vector3.MoveTowards(transform.position, closestHunter.transform.position, -speed);
+        //}
+
+        //transform.position = Vector3.MoveTowards(transform.position, closestEnemy.transform.position, speed);
+
     }
     public GameObject FindClosestEnemy()
     {

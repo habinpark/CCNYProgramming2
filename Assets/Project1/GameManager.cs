@@ -13,10 +13,16 @@ public class GameManager : MonoBehaviour
     public GameObject bottomRight;
 
     public TextMeshProUGUI EndText;
+    public TextMeshProUGUI RestartText;
+    public TextMeshProUGUI IntroText;
 
     bool paperExists = true;
     bool scissorExists = true;
     bool rockExists = true;
+
+    public bool introActive = true;
+    public bool gameActive = false;
+    public bool endActive = false;
 
     //create a variable for a button
     public GameObject button;
@@ -30,6 +36,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         //create a function that returns an array of all game objects with tag (input)
         GameObject[] paperArray = GameObject.FindGameObjectsWithTag("paper");
         GameObject[] scissorArray = GameObject.FindGameObjectsWithTag("scissor");
@@ -39,7 +46,8 @@ public class GameManager : MonoBehaviour
         if (paperArray.Length == 0)
         {
             paperExists = false;
-        }else if(paperArray.Length > 0)
+        }
+        else if (paperArray.Length > 0)
         {
             paperExists = true;
         }
@@ -51,7 +59,7 @@ public class GameManager : MonoBehaviour
         {
             scissorExists = true;
         }
-        if(rockArray.Length == 0)
+        if (rockArray.Length == 0)
         {
             rockExists = false;
         }
@@ -64,18 +72,28 @@ public class GameManager : MonoBehaviour
         if (paperExists == false && rockExists == false)
         {
             EndText.text = "Scissor Wins!";
+            RestartText.text = "Press R to Restart";
         }
         //else if paper and scissor are empty print "rock wins"
         else if (paperExists == false && scissorExists == false)
         {
             EndText.text = "Rock Wins!";
+            RestartText.text = "Press R to Restart";
         }
         //else if rock and scissor are empty print "paper wins"
         else if (rockExists == false && scissorExists == false)
         {
             EndText.text = "Paper Wins!";
+            RestartText.text = "Press R to Restart";
         }
-  
+
+
+        //if r is pressed restart the active scene
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            //open IntroScene
+            UnityEngine.SceneManagement.SceneManager.LoadScene("IntroScene");
+        }
 
 
 
