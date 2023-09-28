@@ -6,7 +6,7 @@ public class EnemyController : MonoBehaviour
 {
     public string enemyType;
     public GameObject myType;
-    public float speed = 0.05f;
+    public float speed = 0.004f;
     public string hunterType;
     GameObject closestEnemy;
     GameObject closestHunter;
@@ -43,21 +43,21 @@ public class EnemyController : MonoBehaviour
             //if the distance to the closest enemy is less than the distance to the closest hunter then move towards the closest enemy
             if (distToClosestEnemy < distToClosestHunter)
             {
-                transform.position = Vector3.MoveTowards(transform.position, closestEnemy.transform.position, speed);
+                transform.position = Vector3.MoveTowards(transform.position, closestEnemy.transform.position, Time.deltaTime * speed);
             }
             else
             {
                 //move away from the closest hunter
-                transform.position = Vector3.MoveTowards(transform.position, closestHunter.transform.position, -speed);
+                transform.position = Vector3.MoveTowards(transform.position, closestHunter.transform.position, Time.deltaTime * -speed);
             }
         }
         else if(closestHunter != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, closestHunter.transform.position, -speed);
+            transform.position = Vector3.MoveTowards(transform.position, closestHunter.transform.position, Time.deltaTime * -speed);
         }
         else if(closestEnemy != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, closestEnemy.transform.position, speed);
+            transform.position = Vector3.MoveTowards(transform.position, closestEnemy.transform.position, Time.deltaTime * speed);
         }
         else
         {

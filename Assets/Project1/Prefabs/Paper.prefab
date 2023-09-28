@@ -101,10 +101,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: rock
   myType: {fileID: 9028818120784467535}
-  speed: 0.003
+  speed: 2
   hunterType: scissor
   forceAmount: 1
-  gameManager: {fileID: 1180987921709790593, guid: f4e602dc679468046acf17ac3905754e, type: 3}
 --- !u!61 &2158144996548208013
 BoxCollider2D:
   m_ObjectHideFlags: 0
